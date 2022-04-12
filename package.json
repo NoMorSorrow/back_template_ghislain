@@ -1,38 +1,68 @@
 {
-  "name": "back-template",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.0.1",
-    "@testing-library/user-event": "^13.5.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
-  },
+  "name": "template-back-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "create-db-migration": "db-migrate create $NAME --sql-file",
+    "migrate-db": "db-migrate up",
+    "rollback-last-db-migration": "db-migrate down",
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "lint": "npx eslint --fix *.js src tests *.js",
+    "format": "prettier --write \"src/**/*.+(js|jsx|json|yml|yaml|css|md|vue)\"",
+    "test": "NODE_ENV=test jest --testRunner='jest-circus/runner' --maxWorkers=1",
+    "test:migrate-db": "db-migrate up -e test",
+    "test:migrate-db-reset": "db-migrate reset -e test",
+    "precommit": "lint-staged && npm run test",
+    "init:husky": "rm -rf ./.husky && npx husky install && npx husky add .husky/pre-commit 'npx lint-staged'"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
+  "jest": {
+    "testRunner": "jest-circus/runner",
+    "testEnvironment": "node",
+    "setupFilesAfterEnv": [
+      "<rootDir>/tests/setupTests.js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
     ]
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "argon2": "^0.28.3",
+    "cors": "^2.8.5",
+    "db-migrate": "^0.11.13",
+    "db-migrate-mysql": "^2.2.0",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "migrate-db": "^0.1.0",
+    "multer": "^1.4.4",
+    "mysql2": "^2.3.3"
+  },
+  "devDependencies": {
+    "eslint": "^8.4.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jest": "^25.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "husky": "^7.0.4",
+    "jest": "^27.4.3",
+    "jest-circus": "^27.4.2",
+    "lint-staged": "^12.1.2",
+    "nodemon": "^2.0.15",
+    "prettier": "^2.5.1",
+    "pretty-quick": "^3.1.2",
+    "supertest": "^6.1.6"
+  },
+  "lint-staged": {
+    "**/*.js": [
+      "npm run lint",
+      "npm run format",
+      "git add"
     ]
   }
 }

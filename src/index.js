@@ -1,17 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+/* eslint no-console: 0 */
+require("dotenv").config();
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+const app = require("./app");
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+const port = process.env.PORT || 5000;
+
+const server = app.listen(port, (err) => {
+  if (err) {
+    console.error(`ERROR: ${err.message}`);
+  } else {
+    console.log(`Server is listening on port ${port}`);
+  }
+});
+
+module.exports = server;
